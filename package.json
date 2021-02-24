@@ -1,0 +1,29 @@
+{
+  "name": "GetBaked-with-JenniBailey",
+  "version": "1.0.0",
+  "description": "https://lucid.app/documents/viewVisio/c5a9f776-c789-4c5f-941a-c01d31093d2d?referringApp=google+drive&name=visioviewer#?fromdrive=1&import=c5a9f776-c789-4c5f-941a-c01d31093d2d",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SandyJacobson/GetBaked-with-JenniBailey.git"
+  },
+  "keywords": [],
+  "author": "Ken Ingram <ken.ingram@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SandyJacobson/GetBaked-with-JenniBailey/issues"
+  },
+  "homepage": "https://github.com/SandyJacobson/GetBaked-with-JenniBailey#readme",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "mongoose": "^5.11.18",
+    "morgan": "^1.10.0",
+    "postgres": "^1.0.2"
+  }
+}
