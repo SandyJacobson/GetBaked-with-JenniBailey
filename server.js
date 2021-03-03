@@ -1,8 +1,8 @@
 const express = require('express')
 const cors = require('cors')
 const bodyParser = require('body-parser')
-const logger = require('morgan');
-const appRoutes = require('./routes/appRoutes');
+const logger = require('morgan')
+// const appRoutes = require('./routes/appRoutes')
 // const db = require('./db/connection')
 const PORT = process.env.PORT || 3000
 const SERVER = process.env.HOST || 'localhost'
