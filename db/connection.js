@@ -1,6 +1,6 @@
 const path = require('path')
 require('dotenv').config({
-  path: path.resolve('../.env')
+  path: path.resolve('.env')
 })
 
 const postgres = require('postgres')
@@ -13,25 +13,21 @@ const db = postgres({
   pass: process.env.DB_PW
 })
 
-// const db = postgres({ ...options })
+// const test = async () => {
+//   let results
+//   try {
+//     results = await db`
+//       select * from products
+//     `
+//   } catch (e){
+//     console.log(e)
+//   } finally {
+//     db.end()
+//   }
+//   results.forEach(x => console.log(`${x.product_name}, ${x.quantity_at_price} for \$${x.price}`))
+// }
 
-
-const test = async () => {
-  let results
-  try {
-    results = await db`
-      select * from products
-    `
-  } catch (e){
-    console.log(e)
-  } finally {
-    db.end()
-  }  
-  
-  console.log(results)
-}
-
-test()
+// test()
 module.exports = {
   db
 }
