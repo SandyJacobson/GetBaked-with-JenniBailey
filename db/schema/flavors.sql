@@ -5,23 +5,18 @@
 
 
 /*==============================================================*/
-/* Table: products                                              */
+/* Table: flavors                                               */
 /*==============================================================*/
-create table products (
+create table flavors (
    objid                SERIAL               not null,
-   product_name         VARCHAR(80)          null,
-   product_category     VARCHAR(80)          null,
-   price                DECIMAL(12,2)        null,
-   quantity_at_price    INT4                 null,
-   product_image        CHAR(65535)          null,
-   product_code         VARCHAR(10)          null,
-   constraint PK_PRODUCTS primary key (objid)
+   flavor_name          VARCHAR(30)          null,
+   constraint PK_FLAVORS primary key (objid)
 );
 
 /*==============================================================*/
-/* Index: products_pk                                           */
+/* Index: flavors_pk                                            */
 /*==============================================================*/
-create unique index products_pk on products (
+create unique index flavors_pk on flavors (
 objid
 );
 

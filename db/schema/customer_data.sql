@@ -5,36 +5,35 @@
 
 
 /*==============================================================*/
-/* Table: account_info                                          */
+/* Table: customer_data                                         */
 /*==============================================================*/
-create table account_info (
+create table customer_data (
    objid                SERIAL               not null,
    customer_id          INT4                 null,
-   created              DATE                 null,
-   username             VARCHAR(80)          null,
-   email                VARCHAR(80)          null,
-   password             VARCHAR(20)          null,
-   notes                VARCHAR(500)         null,
-   last_login           DATE                 null,
-   constraint PK_ACCOUNT_INFO primary key (objid)
+   address              VARCHAR(30)          null,
+   city                 VARCHAR(30)          null,
+   state                VARCHAR(2)           null,
+   zip                  VARCHAR(10)          null,
+   location_type        VARCHAR(30)          null,
+   constraint PK_CUSTOMER_DATA primary key (objid)
 );
 
 /*==============================================================*/
-/* Index: account_info_pk                                       */
+/* Index: customer_data_pk                                      */
 /*==============================================================*/
-create unique index account_info_pk on account_info (
+create unique index customer_data_pk on customer_data (
 objid
 );
 
 /*==============================================================*/
-/* Index: otm_user2login_fk                                     */
+/* Index: otm_user2address_fk                                   */
 /*==============================================================*/
-create  index otm_user2login_fk on account_info (
+create  index otm_user2address_fk on customer_data (
 customer_id
 );
 
-alter table account_info
-   add constraint otm_customer4account_info foreign key (customer_id)
+alter table customer_data
+   add constraint otm_customer4customer_data foreign key (customer_id)
       references customers (objid)
       on delete restrict on update restrict;
 
