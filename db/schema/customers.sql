@@ -10,7 +10,6 @@
 create table customers (
    objid                SERIAL               not null,
    entry_date           DATE                 null,
-   user_id              INT4                 null,
    first_name           VARCHAR(50)          null,
    last_name            VARCHAR(50)          null,
    phone_number         VARCHAR(10)          null,
