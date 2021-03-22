@@ -2,11 +2,10 @@ const { db } = require('../db/connection')
 
 /** Get all inventory items */
 async function getInventory () {
-  const results = await db`
-    SELECT * FROM PRODUCTS
-  `
+  const SQL = `SELECT * FROM PRODUCTS`
+  const results = await db.any(SQL)
   console.log(results)
-  db.end()
+  // db.$pool.end()
   return results
 }
 
@@ -21,8 +20,6 @@ async function getInventoryByName (name) {
 async function getInventoryById (id) {
 
 }
-
-getInventory()
 
 module.exports = {
   getInventory
