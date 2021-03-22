@@ -1,35 +1,20 @@
-const path = require('path')
-require('dotenv').config({
-  path: path.resolve('../.env')
-})
-
-const postgres = require('postgres')
+const { db } = require('../db/connection')
 const faker = require('faker')
 
-
-const db = postgres({
-  host: process.env.DB_HOST,
-  port: process.env.DB_PORT,
-  database: process.env.DB,
-  username: process.env.DB_USER,
-  pass: process.env.DB_PW
-})
-
 async function generateCustomer () {
-  const [results] = await db`
-    INSERT INTO customer (
-      first_name,
-      last_name,
-      phone_number
-    ) VALUES (
-      '${faker.name.firstName()}',
-      '${faker.name.lastName()}',
-      '${faker.phone.phoneNumber()}'
-    )
+  const SQL = `INSERT INTO customers (
+    entry_date,
+    first_name,
+    last_name,
+    phone_number
+  ) VALUES (
+    NOW(),
+    '${faker.name.firstName()}',
+    '${faker.name.lastName()}',
+    '${faker.phone.phoneNumberFormat().replace(/-/g, '')}'
+  ) RETURNING objid `
 
-    returning *
-  `
-  db.end()
+  const [results] = await db.any(SQL)
   return results
 }
 
@@ -39,9 +24,7 @@ async function generateCustomerData (id) {
    * the customer data
    */
 
-  const [results] = await db`
-    INSERT INTO customer_data
-    (
+  const SQL = `INSERT INTO customer_data (
       customer_id,
       address,
       city,
@@ -51,14 +34,16 @@ async function generateCustomerData (id) {
       ${id},
       '${faker.address.streetAddress()}',
       '${faker.address.city()}',
-      '${faker.address.state()}',
-      '${faker.address.zipCode()}',
-    )
+      '${faker.address.stateAbbr()}',
+      '${faker.address.zipCode()}'
+    ) RETURNING *`
 
-    returning *
-  `
-  db.end()
-  return results
+  try {
+    const [results] = await db.any(SQL)
+    return results
+  } catch (e) {
+    console.log(e)
+  }
 }
 
 async function generateAccountInfo (id) {
@@ -66,40 +51,43 @@ async function generateAccountInfo (id) {
    * id: The primary key of the user record associated with
    * the account info
    */
-  const [results] = db`
-    INSERT INTO account_info
-    (
-      customer_id
+  const SQL = `INSERT INTO account_info (
+      customer_id,
       username,
       email,
       password
     ) VALUES (
       ${id},
-      ${faker.internet.userName()},
-      ${faker.internet.email()},
-      ${faker.internet.password()},
-    )
+      '${faker.internet.userName()}',
+      '${faker.internet.email()}',
+      '${faker.internet.password()}'
+    ) RETURNING *`
 
-    returning *
-  `
-  db.end()
-  return results
+  try {
+    const [results] = await db.any(SQL)
+    return results
+  } catch (e) {
+    console.log(e)
+  }
 }
 
 async function generateUser () {
-  const userid = (await generateCustomer()).objid
-  const customer = await generateCustomerData(userid)
-  const accountinfo = await generateAccountInfo(userid)
-
-  console.log(`User: ${userid}`)
-  console.log(`${customer}`)
-  console.log(`${accountinfo}`)
+  try {
+    const userid = await generateCustomer()
+    const customer = await generateCustomerData(userid.objid)
+    const accountinfo = await generateAccountInfo(userid.objid)
+    console.log(`User: ${JSON.stringify(userid, null, 2)}`)
+    console.log(`Customer Info: ${JSON.stringify(customer, null, 2)}`)
+    console.log(`User Account Info: ${JSON.stringify(accountinfo, null, 2)}`)
+  } catch (e) {
+    console.log(e)
+  } finally {
+    db.$pool.end()
+  }
 }
 
-// generateUser()
+const run = async () => {
+  generateUser()
+}
 
-// const run = async () => {
-//   await generateCustomer()
-// }
-
-// run()
+run()

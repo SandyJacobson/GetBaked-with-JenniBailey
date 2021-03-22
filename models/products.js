@@ -24,8 +24,6 @@ async function createProduct (item) {
   } finally {
     db.end()
   }
-
-
 }
 
 async function updateProduct (id, data) {
