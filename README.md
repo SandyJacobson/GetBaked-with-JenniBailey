@@ -5,4 +5,11 @@
   - postgres npm module
   - Express npm module
   
+### For testing, create a .env file in the project root directory
+The .env file should have this format:
 
+    DB_USER=<database user>
+    DB_HOST=localhost
+    DB_PORT=5432
+    DB_PW=<database password>
+    DB=<database name>
