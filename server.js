@@ -2,8 +2,7 @@ const express = require('express')
 const cors = require('cors')
 const bodyParser = require('body-parser')
 const logger = require('morgan')
-const db = require('./db/connection')
-// const controllers = require('./controllers/inventory')
+// const db = require('./db/connection')
 const inventory = require('./routes/inventory')
 
 // const appRoutes = require('./routes/appRoutes')
@@ -16,8 +15,8 @@ const app = express()
 // app.use(bodyParser.json())
 app.use(cors())
 app.use(logger('dev'))
+app.use(express.json())
 app.use('/api', inventory)
-
 
 app.get('/', (req, res) => {
   res.send("<h1>Jenni's Bakery API</h1>")
